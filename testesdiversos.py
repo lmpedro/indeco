@@ -1,8 +1,13 @@
 # -*- coding: utf-8 -*-
 
 '''
-    Este indicador é a idade média dos PROFSSs de cada ecossistema
+    Arquivo para rotinas de testes. Pode ser apagado à vontade.
 '''
+
+
+'''
+    Este indicador é a idade média dos PROFSSs de cada ecossistema
+    '''
 
 import time
 import json
@@ -10,6 +15,7 @@ from conversoes import convertecbo, converteuf, convertecnae, converteescol, con
 import numpy as np
 from funcoes_base_inds import *
 import os
+from functest import calculo, jsoncreate, basesdef
 
 '''
     Atenção: várias das funções básicas que o programa usa estão descritas, comentadas e definidas no arquivo funcoes_base_inds.py
@@ -24,70 +30,51 @@ def rodar(bases,defs,geo,neco):
     reduzido=bases[-1]
     geoindex, geoname=geodef(geo)
     
-    #ix identifica a posição das variáveis que servirão como controle
-    ia=int(defs[geoindex])
-    ib=defs[0]
-    ic=defs[17]
-    id=defs[19]
+    #controls: lista com cinco ints que indicam a posição da variável objetiva [0] e das variáveis de controle [1-4] na base de dados
+    controls=[
+        defs[21],
+        int(defs[geoindex]),
+        defs[0],
+        defs[17],
+        defs[19],
+        ]
+    
+    #sets: lista com quatro elementos, cada um deles um set dos valores únicos pelos quais se deve iterar as variáveis de controle
     
     #criar os conjuntos de valores através dos quais se deve iterar ao calcular as médias. Geram-se listas ordenadas dos valores únicos de uf, cnae... Resume-se a base às observações do ecossistema para restringir o conjunto de cnaes àquelas do ecossistema, e retiram-se observações que não sejam de profss para captar apenas as CBOs dessa categoria.
-    seta=uniquevalues(reduzido,ia)
-    setc=uniquevalues(reduzido,ic)
+    sets=[]
+    sets.append(uniquevalues(reduzido,controls[1]))
     #retirar observações que não são do ecossistema em questão
     reduzidobeta=keepif(reduzido,defs[neconum],1)
-    setb=uniquevalues(reduzidobeta,ib)
+    sets.append(uniquevalues(reduzidobeta,controls[2]))
+    sets.append(uniquevalues(reduzido,controls[3]))
     #retirar observações que não são de PROFSSs
     reduzido=keepif(reduzido,defs[28],1)
-    setd=uniquevalues(reduzido,id)
+    sets.append(uniquevalues(reduzido,controls[4]))
     
-    #obj é a variável objetiva que terá sua média calculada
-    obj=defs[21]
-    first=[]
-    
-    '''
-        este loop relativamente longo faz o cálculo das estatísticas em questão. Vai-se iterando pelos sets de valores únicos das variáveis de controle anteriormente criadas, gerando, ao final, uma matriz 6d com tuplas de (média, número de ocorrências).
-    '''
-    
-    for index in range(len(bases)):
-        reduzido=bases[index]
+    onlyprofss=[1,defs[28]]
+    vetor=calculo(bases,onlyprofss,sets,controls,neconum)
         
-        #retira-se observações que não sejam do ecossistema em questão ou de profss
-        reduzido=keepif(reduzido,defs[28],1)
-        reduzido=keepif(reduzido,defs[neconum],1)
-        
-        second=[]
-        for va in seta:
-            intermediary=[]
-            for vb in setb:
-                theonebeforelast=[]
-                for vc in setc:
-                    lastinstance=[]
-                    for vd in setd:
-                        med=media(reduzido,obj,ia,ib,ic,id,va,vb,vc,vd)
-                        lastinstance.append(med)
-                    theonebeforelast.append(lastinstance)
-                intermediary.append(theonebeforelast)
-            second.append(intermediary)
-        first.append(second)
-    
     #criar as listas que servirão de índice aos jsons
     lista_indices=[]
+    listanos=[2006,2007,2008,2009,2010,2011]
+    lista_indices.append(listanos)
     listia=[]
-    for x in seta:
+    for x in sets[0]:
         if geo=='uf': y=converteuf(x)
         if geo=='meso': y=convertemeso(x)
         if geo=='micro': y=convertemicro(x)
         listia.append(y)
     listib=[]
-    for x in setb:
+    for x in sets[1]:
         y=convertecnae(x)
         listib.append((x,y))
     listic=[]
-    for x in setc:
+    for x in sets[2]:
         y=converteescol(x)
         listic.append(y)
     listid=[]
-    for x in setd:
+    for x in sets[3]:
         y=convertecbo(x)
         listid.append((x,y))
     
@@ -96,44 +83,31 @@ def rodar(bases,defs,geo,neco):
     lista_indices.append(listic)
     lista_indices.append(listid)
     
-    vetor= lineariza(first)
-    
     return vetor,lista_indices
 
 '''
     Função que cria os jsons para a saída. Recebe um vetor nx1 com os resultados, uma lista com os índices, a dimensão geográfica, o número do ecossistema e o caminho para salvar os jsons. Cria o json e não retorna nada.
 '''
 
-def jsoncreate(results,indices,geo,neco,caminho):
-    geoindex, geoname=geodef(geo)
-    jresults={
-        "fonte":"RAIS/MTE (2006-2011)",
-        "indicador":[u"Idade média dos PROFSSs","Idade/trabalhador"],
-        "estrutura":[
-                     "Ano",
-                     geoname,
-                     "Classificação Nacional de Atividades Econômicas (Classe CNAE)",
-                     "Faixa de Escolaridade",
-                     "Classificação Brasileira de Ocupações (Família CBO)",
-                     "Valores"],
-            "indices":[
-                       [2006,2007,2008,2009,2010,2011],
-                       indices[0],
-                       indices[1],
-                       indices[2],
-                       indices[3],
-                       ["Idade média dos PROFSSs","Número de PROFSSs"],
-                       ],
-                     "valores":list(results),
-    }
-    #esse if/else garante que o nome dos arquivos terá, na parte que identifica os ecossistemas, dois dígitos
-    if neco<10:
-        nomearquivo="d_BR"+geo+"020"+str(neco)+".json"
-    else: nomearquivo="d_BR"+geo+"02"+str(neco)+".json"
+'''
+    Função que cria os jsons para a saída. Recebe o seguinte:
+    results: um vetor nx1 com os resultados,
+    indices: uma lista de 6 x Xi com os indices. Esta lista deve conter:
+    0: os anos
+    1-4: os índices das variáveis de corte na ordem em que são iterados
+    5: um vetor n x 1 com a descrição das estatísticas calculadas: e.g., [%PROFSS,N trabalhadores]
+    geo: a dimensão geográfica, em str
+    neco: o número do ecossistema, em int
+    caminho: o caminho para salvar os jsons, em str
+    fonte: Base de dados utilizada (str)
+    indicador: lista em str com o nome do indicador e a unidade de medida: eg, [u"Proporção de PROFSSs","PROFSSs/trabalhadores(as)"]
+    estrutura: recebe um vetor 6x1 que indica a estrutura das variáveis que são iteradas (ano, unidade geográfica, CNAE, escolaridade...)
+    nind: número do indicador a ser calculado, em int
     
-    arquivo = open(caminho+nomearquivo,"w")
-    arquivo.write(json.dumps(jresults))
-    arquivo.close()
+    A função cria o json e não retorna nada.
+    
+'''
+
 
 '''
     Trata-se da função que efetivamente roda o programa todo. Recebe a dimensão geográfica, o primeiro ecossistema a rodar, o último ecossistema a rodar e um número que identifica qual conjunto de bases usar. Gera todos os jsons a partir dessa combinação, e não retorna nada.
@@ -144,7 +118,7 @@ def jsoncreate(results,indices,geo,neco,caminho):
     3:.25%
     4:.25%, para 2006 e 2007
     5:.25%, para 2006
-'''
+    '''
 
 def ind2(geo='uf',ecoinit=16,ecoend=16,tamanho=5):
     tglobal=time.time()
@@ -157,26 +131,28 @@ def ind2(geo='uf',ecoinit=16,ecoend=16,tamanho=5):
     if os.path.exists(caminho)==False: os.makedirs(caminho)
     
     #definição das bases a serem utilizadas
-    if tamanho==0: listabases=['r06.txt','r07.txt','r08.txt','r09.txt','r10.txt','r11.txt']
-    if tamanho==1: listabases=['r06s10.txt','r07s10.txt','r08s10.txt','r09s10.txt','r10s10.txt','r11s10.txt']
-    if tamanho==2: listabases=['r06s1.txt','r07s1.txt','r08s1.txt','r09s1.txt','r10s1.txt','r11s1.txt']
-    if tamanho==3: listabases=['r06s.txt','r07s.txt','r08s.txt','r09s.txt','r10s.txt','r11s.txt']
-    if tamanho==4: listabases=['r06s.txt','r07s.txt']
-    if tamanho==5: listabases=['r06s.txt']
-    if tamanho==6: listabases=['r06.txt']
-    if tamanho==7: listabases=['r07.txt']
-    if tamanho==8: listabases=['r08.txt']
-    if tamanho==9: listabases=['r09.txt']
-    if tamanho==10: listabases=['r10.txt']
-    if tamanho==11: listabases=['r11.txt']
+    listabases=basesdef(tamanho)
     
     vars=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,19,21,28,geoindex]
     bases,reduzidodef=arrumabases(listabases,vars)
+
+    fonte=u"RAIS/MTE (2006-2011)"
+    indicador=[u"Idade média dos PROFSSs","Idade/trabalhador"]
+    estrutura=[
+               "Ano",
+               geoname,
+               "Classificação Nacional de Atividades Econômicas (Classe CNAE)",
+               "Faixa de Escolaridade",
+               "Classificação Brasileira de Ocupações (Família CBO)",
+               "Valores",
+               ]
+    nind=2
     
     for neco in range(ecoinit,ecoend):
         teco=time.time()
         results,lista_indices=rodar(bases,reduzidodef,geo,neco)
-        jsoncreate(results,lista_indices,geo,neco,caminho)
+        lista_indices.append(["Idade média dos PROFSSs","Número de PROFSSs"])
+        jsoncreate(results,lista_indices,geo,neco,caminho,fonte,indicador,estrutura,nind)
         teco=round(time.time()-teco,2)
         print "Termina o eco",neco,"em",teco,"s."
     
@@ -222,5 +198,5 @@ def ind2(geo='uf',ecoinit=16,ecoend=16,tamanho=5):
     v33   sw3
     v34   tamestab
     v35   uf
-
+    
 '''

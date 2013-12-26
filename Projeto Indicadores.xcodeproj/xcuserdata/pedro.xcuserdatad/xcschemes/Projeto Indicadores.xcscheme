@@ -54,6 +54,10 @@
       <CommandLineArguments>
          <CommandLineArgument
             argument = "&quot;$(SRCROOT)/roda_indicador.py&quot;"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "&quot;$(SRCROOT)/rodateste.py&quot;"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument

@@ -7,9 +7,9 @@ Ecoinit é o primeiro ecossistema para o qual se quer gerar um json, ecoend o ú
 Deve-se importar cada indicador de seu arquivo específico.
 '''
 
-from ind1_20131121 import ind1
-from ind2_20131130 import ind2
-from ind3_20131217 import ind3
+from ind1 import ind1
+from ind2 import ind2
+from ind3 import ind3
 
 #ind1(geo='uf',ecoinit=1,ecoend=16,tamanho=8)
 #ind1(geo='uf',ecoinit=1,ecoend=16,tamanho=9)
@@ -24,6 +24,6 @@ from ind3_20131217 import ind3
 #ind3(geo='uf',ecoinit=1,ecoend=16,tamanho=6)
 #ind3(geo='uf',ecoinit=1,ecoend=16,tamanho=7)
 #ind3(geo='uf',ecoinit=1,ecoend=16,tamanho=8)
-ind3(geo='uf',ecoinit=1,ecoend=16,tamanho=9)
+#ind3(geo='uf',ecoinit=1,ecoend=16,tamanho=9)
 #ind3(geo='uf',ecoinit=1,ecoend=16,tamanho=10)
-#ind3(geo='uf',ecoinit=1,ecoend=16,tamanho=11)
+ind3(geo='uf',ecoinit=1,ecoend=16,tamanho=11)

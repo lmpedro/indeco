@@ -26,4 +26,4 @@ from ind3 import ind3
 #ind3(geo='uf',ecoinit=1,ecoend=16,tamanho=8)
 #ind3(geo='uf',ecoinit=1,ecoend=16,tamanho=9)
 #ind3(geo='uf',ecoinit=1,ecoend=16,tamanho=10)
-ind3(geo='uf',ecoinit=1,ecoend=16,tamanho=11)
+ind1(geo='uf',ecoinit=1,ecoend=16,tamanho=5)

@@ -157,7 +157,7 @@ def specprint(a,b,c,d,e,f):
 
 caminho='/Users/pedro/CTI/Python/Dashboard/Indicadores/Base0/d_BRuf'
 
-for w in range(1,3):
+for w in range(3,4):
 
     for q in range(1,17):
         jota=[]

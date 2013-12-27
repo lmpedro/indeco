@@ -5,11 +5,8 @@
 '''
 
 import time
-import json
-from conversoes import convertecbo, converteuf, convertecnae, converteescol, convertemicro, convertemeso
-import numpy as np
+from conversoes import *
 from funcoes_base_inds import *
-import os
 
 '''
     Atenção: várias das funções básicas que o programa usa estão descritas, comentadas e definidas no arquivo funcoes_base_inds.py
@@ -99,10 +96,6 @@ def ind3(geo='uf',ecoinit=16,ecoend=16,tamanho=5):
     geoindex, geoname=geodef(geo)
     ecoend+=1
     
-    #Verifica se o caminho para salvar os jsons existe e, se não, o cria."
-    caminho='../Indicadores/Base'+str(tamanho)+'/'
-    if os.path.exists(caminho)==False: os.makedirs(caminho)
-    
     #definição das bases a serem utilizadas
     listabases=basesdef(tamanho)
     
@@ -124,7 +117,7 @@ def ind3(geo='uf',ecoinit=16,ecoend=16,tamanho=5):
     for neco in range(ecoinit,ecoend):
         teco=time.time()
         results,lista_indices=rodar(bases,reduzidodef,geo,neco)
-        jsoncreate(results,lista_indices,geo,neco,caminho,fonte,indicador,estrutura,nind)
+        jsoncreate(results,lista_indices,geo,neco,tamanho,fonte,indicador,estrutura,nind)
         teco=round(time.time()-teco,2)
         print "Termina o eco",neco,"em",teco,"s."
 

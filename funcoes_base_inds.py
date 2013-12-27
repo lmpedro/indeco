@@ -9,6 +9,7 @@ import time
 from conversoes import convertecbo, converteuf, convertecnae, converteescol, convertemicro, convertemeso
 import numpy as np
 import json
+import os
 
 
 '''
@@ -196,7 +197,7 @@ def arrumabases(listabases,vars):
     5: um vetor n x 1 com a descrição das estatísticas calculadas: e.g., [%PROFSS,N trabalhadores]
     geo: a dimensão geográfica, em str
     neco: o número do ecossistema, em int
-    caminho: o caminho para salvar os jsons, em str
+    tamanho: o tamanho das bases usadas, para colocar os jsons nas pastas corretas
     fonte: Base de dados utilizada (str)
     indicador: lista em str com o nome do indicador e a unidade de medida: eg, [u"Proporção de PROFSSs","PROFSSs/trabalhadores(as)"]
     estrutura: recebe um vetor 6x1 que indica a estrutura das variáveis que são iteradas (ano, unidade geográfica, CNAE, escolaridade...)
@@ -206,7 +207,7 @@ def arrumabases(listabases,vars):
     
 '''
 
-def jsoncreate(results,indices,geo,neco,caminho,fonte,indicador,estrutura,nind):
+def jsoncreate(results,indices,geo,neco,tamanho,fonte,indicador,estrutura,nind):
     geoindex, geoname=geodef(geo)
     jresults={
         "fonte":fonte,
@@ -215,6 +216,11 @@ def jsoncreate(results,indices,geo,neco,caminho,fonte,indicador,estrutura,nind):
         "indices":indices,
         "valores":list(results),
     }
+    
+    #Verifica se o caminho para salvar os jsons existe e, se não, o cria."
+    caminho='/Users/pedro/CTI/Python/Dashboard/Indicadores/Base'+str(tamanho)+'/'
+    if os.path.exists(caminho)==False: os.makedirs(caminho)
+
     #esse if/else garante que o nome dos arquivos terá, na parte que identifica os ecossistemas, dois dígitos
     if neco<10:
         nomearquivo="d_BR"+geo+"0"+str(nind)+"0"+str(neco)+".json"

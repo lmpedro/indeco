@@ -57,11 +57,15 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "&quot;$(SRCROOT)/rodateste.py&quot;"
+            argument = "&quot;$(SRCROOT)/verifica_json.py&quot;"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "$(SRCROOT)/ind3_20131217.py"
+            argument = "&quot;$(SRCROOT)/rodateste.py&quot;"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "&quot;$(SRCROOT)/unifica_json.py&quot;"
             isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>

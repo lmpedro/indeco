@@ -5,9 +5,6 @@
 '''
 
 
-'''
-    Este indicador é a idade média dos PROFSSs de cada ecossistema
-    '''
 
 import time
 import json

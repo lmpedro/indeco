@@ -2,7 +2,6 @@
 
 import time
 import json
-import numpy as np
 
 def carrega_json(entrada):
     j = open(entrada,"r")

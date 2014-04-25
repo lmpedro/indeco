@@ -34,5 +34,5 @@ if args.ind==1:
     ind1(geo=geo,ecoinit=ecoinit,ecoend=ecoend,tamanho=tamanho)
 elif args.ind==2:
     ind2(geo=geo,ecoinit=ecoinit,ecoend=ecoend,tamanho=tamanho)
-elif arg.ind==3:
+elif args.ind==3:
     ind3(geo=geo,ecoinit=ecoinit,ecoend=ecoend,tamanho=tamanho)

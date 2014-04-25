@@ -1,0 +1,75 @@
+Indicadores no Produto
+    1. % trabalhadores que acessou a internet nos últimos três meses
+    2. % trabalhadores que possui telefone celular
+    3. Odds-ratio da probabilidade de ter usado a internet
+    1. % PROFSSs
+    2. Salário médio PROFSSs/Salário médio eco
+    3. Salário médio PROFSSs do eco/Salário médio todos os PROFSSs
+    4. Idade média PROFSS/pirâmide
+    5a. % PROFSSs com ensino fundamental incompleto
+    5b. % PROFSSs com ensino fundamental completo
+    5c. % PROFSSs com ensino médio completo
+    5d. % PROFSSs com ensino superior completo
+    5e. % PROFSSs com mestrado ou doutorado
+    6a. % PROFSSs gerenciais
+    6b. % PROFSSs especialistas
+    6c. % PROFSSs técnicos
+    7a. % PROFSSs SW1
+    7b. % PROFSSs SW2
+    7c. % PROFSSs SW3
+    1a. % PROFSSs pequenas empresas
+    1b. % PROFSSs grandes empresas
+    2a. Idade média PROFSSs pequenas empresas/pirâmide
+    2b. Idade média PROFSSs grandes empresas/pirâmide
+    3a. Correlação entre especialização espacial no eco e "profissionalização"
+    (municípios)
+    3b. Correlação entre especialização espacial no eco e "profissionalização"
+    (microrregiões)
+    3c. Correlação entre especialização espacial no eco e "profissionalização"
+    (mesorregiões)
+    1a. Correlação entre especialização espacial no eco e na IBSS
+    (municípios)
+    1b. Correlação entre especialização espacial no eco e na IBSS
+    (microrregiões)
+    1c. Correlação entre especialização espacial no eco e na IBSS
+    (mesorregiões)
+    Sinal e significância do coeficiente da especialização na IBSS
+    (dados em painel)
+    Sinal e significância do coeficiente da especialização no eco
+    (dados em painel)
+
+
+Indicadores já feitos
+    Salário médio de PROFSSs
+        Faixa de escolaridade
+        CBO
+        
+    Média de idade de PROFSSs
+        Faixa de escolaridade
+        CBO
+    
+    Percentual de PROFSSs
+        Faixa de escolaridade
+        Sexo
+        
+
+Indicadores possíveis
+
+    Percentual de PROFSSs
+        Peq/gde empresas
+        Gerencial, especialista, técnico
+        
+    % que acessou a internet
+        Faixa de escolaridade
+        X
+        
+    % que tem cell
+        Faixa de escolaridade
+        X
+
+    1. % trabalhadores que acessou a internet nos últimos três meses
+    2. % trabalhadores que possui telefone celular
+    3. Odds-ratio da probabilidade de ter usado a internet
+    6a. % PROFSSs gerenciais
+    6b. % PROFSSs especialistas
+    6c. % PROFSSs técnicos

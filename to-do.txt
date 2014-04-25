@@ -1,0 +1,3 @@
+Conversar com Mauro se não seria interessante rever o indicador 3, fazendo com fosse cortado pelo tamanho do est.
+Fazer o indicador 4 ser o % de PROFSSs[cat] por tamestab
+    ver se não rola de deixar como obrigatória a escolha de uma das três cats.

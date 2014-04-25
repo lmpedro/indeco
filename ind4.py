@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 '''
-    Este indicador é a proporção de PROFSSs em cada ecossistema
+    Este indicador é a proporção de PROFSSs gerenciais em cada ecossistema (tomando como base o número de PROFSSs)
 '''
 
 import time
@@ -77,7 +77,7 @@ def rodar(bases,defs,geo,neco):
     lista_indices.append(listib)
     lista_indices.append(listic)
     lista_indices.append(listid)
-    lista_indices.append(["Proporção de PROFSSs gerenciais","Número de trabalhadores(as)"])
+    lista_indices.append(["Proporção de PROFSSs gerenciais","Número de PROFSSs"])
     
     return vetor,lista_indices
 
@@ -99,7 +99,7 @@ def ind4(geo='uf',ecoinit=16,ecoend=16,tamanho=5):
     bases,reduzidodef=arrumabases(listabases,vars)
     
     fonte=u"RAIS/MTE (2006-2011)"
-    indicador=[u"Proporção de PROFSSs gerenciais","PROFSSs gerenciais/trabalhadores(as)"]
+    indicador=[u"Proporção de PROFSSs gerenciais","PROFSSs gerenciais/PROFSSs"]
     estrutura=[
                "Ano",
                geoname,

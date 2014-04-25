@@ -98,7 +98,7 @@ def ind3(geo='uf',ecoinit=16,ecoend=16,tamanho=5):
     #definição das bases a serem utilizadas
     listabases=basesdef(tamanho)
     
-    vars=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,19,21,28,30,geoindex]
+    vars=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,28,30,geoindex]
     bases,reduzidodef=arrumabases(listabases,vars)
     
     fonte=u"RAIS/MTE (2006-2011)"

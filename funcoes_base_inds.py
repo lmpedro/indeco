@@ -295,7 +295,7 @@ def cmdlparser():
     parser.add_argument("-g", "--geo", type=str, choices = ['uf','micro','meso'], default='uf', help="Escolhe a unidade geográfica: uf, micro meso.")
     parser.add_argument("-ei", "--ecoinit", type=int, choices = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,12,13,14,15,16], default='16', help="Escolhe o ecossistema inicial a ser processado: 1...16")
     parser.add_argument("-ee", "--ecoend", type=int, choices = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,12,13,14,15,16], default='16', help="Escolhe o ecossistema final a ser processado: 1...16")
-    parser.add_argument("-i", "--ind", type=int, choices = [1,2,3], default=1, help="Escolhe o indicador a ser rodado.")
+    parser.add_argument("-i", "--ind", type=int, choices = [1,2,3,4], default=1, help="Escolhe o indicador a ser rodado.")
 
     args = parser.parse_args()
     return args

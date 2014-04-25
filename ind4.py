@@ -46,6 +46,7 @@ def rodar(bases,defs,geo,neco):
     #identifica se a função utiliza dados de todos os trabalhadores ou somente de PROFSSs e a posição da variável de PROFSSs
     onlyprofss=[1,defs[28]]
     #chama a função que calcula as estatísticas de interesse, retornando um vetor nx1
+    #print bases
     vetor=calculo(bases,onlyprofss,sets,controls,neconum)
 
     #criar as listas que servirão de índice aos jsons

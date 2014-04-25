@@ -39,7 +39,6 @@ def rodar(bases,defs,geo,neco):
     reduzidobeta=keepif(reduzido,defs[neconum],1)
     sets.append(uniquevalues(reduzidobeta,controls[2]))
     sets.append(uniquevalues(reduzido,controls[3]))
-    #retirar observações que não são de PROFSSs
     sets.append(uniquevalues(reduzido,controls[4]))
 
     #identifica se a função utiliza dados de todos os trabalhadores ou somente de PROFSSs e a posição da variável de PROFSSs

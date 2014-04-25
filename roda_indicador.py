@@ -21,6 +21,9 @@ from ind1 import ind1
 from ind2 import ind2
 from ind3 import ind3
 from ind4 import ind4
+from ind5 import ind5
+from ind6 import ind6
+
 from funcoes_base_inds import cmdlparser
 
 
@@ -39,3 +42,9 @@ elif args.ind==3:
     ind3(geo=geo,ecoinit=ecoinit,ecoend=ecoend,tamanho=tamanho)
 elif args.ind==4:
     ind4(geo=geo,ecoinit=ecoinit,ecoend=ecoend,tamanho=tamanho)
+elif args.ind==5:
+    ind5(geo=geo,ecoinit=ecoinit,ecoend=ecoend,tamanho=tamanho)
+elif args.ind==6:
+    ind6(geo=geo,ecoinit=ecoinit,ecoend=ecoend,tamanho=tamanho)
+else:
+    print "Oh no, mate, this ain't possible... there's no such indicator!"

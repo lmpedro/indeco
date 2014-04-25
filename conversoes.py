@@ -2033,3 +2033,17 @@ def convertemicro(entrada):
     if entrada == 53001:  saida = "Brasília"
 
     return saida
+
+def convertetamestab(entrada):
+    saida=None
+    if entrada==2: saida="Até 4 empregados(as)"
+    elif entrada==3: saida="De 5 a 9 empregados(as)"
+    elif entrada==4: saida="De 10 a 19 empregados(as)"
+    elif entrada==5: saida="De 20 a 49 empregados(as)"
+    elif entrada==6: saida="De 50 a 99 empregados(as)"
+    elif entrada==7: saida="De 100 a 249 empregados(as)"
+    elif entrada==8: saida="De 250 a 499 empregados(as)"
+    elif entrada==9: saida="De 500 a 999 empregados(as)"
+    elif entrada==10: saida="1000 ou mais empregados(as)"
+
+    return saida

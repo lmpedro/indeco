@@ -20,22 +20,19 @@ Deve-se importar cada indicador de seu arquivo específico.
 from ind1 import ind1
 from ind2 import ind2
 from ind3 import ind3
+from funcoes_base_inds import cmdlparser
 
-print "aaa"
 
-#ind1(geo='uf',ecoinit=1,ecoend=16,tamanho=8)
-#ind1(geo='uf',ecoinit=1,ecoend=16,tamanho=9)
-#ind1(geo='uf',ecoinit=1,ecoend=16,tamanho=10)
-#ind1(geo='uf',ecoinit=1,ecoend=16,tamanho=11)
-#ind2(geo='uf',ecoinit=1,ecoend=16,tamanho=6)
-#ind2(geo='uf',ecoinit=1,ecoend=16,tamanho=7)
-#ind2(geo='uf',ecoinit=1,ecoend=16,tamanho=8)
-#ind2(geo='uf',ecoinit=1,ecoend=16,tamanho=9)
-#ind2(geo='uf',ecoinit=1,ecoend=16,tamanho=10)
-#ind1(geo='uf',ecoinit=1,ecoend=1,tamanho=5)
-#ind3(geo='uf',ecoinit=1,ecoend=16,tamanho=6)
-#ind3(geo='uf',ecoinit=1,ecoend=16,tamanho=7)
-#ind3(geo='uf',ecoinit=1,ecoend=16,tamanho=8)
-#ind3(geo='uf',ecoinit=1,ecoend=16,tamanho=9)
-#ind3(geo='uf',ecoinit=1,ecoend=16,tamanho=10)
-ind1(geo='uf',ecoinit=1,ecoend=2,tamanho=5)
+args=cmdlparser()
+
+geo=args.geo
+ecoinit=args.ecoinit
+ecoend=args.ecoend
+tamanho=args.base
+
+if args.ind==1:
+    ind1(geo=geo,ecoinit=ecoinit,ecoend=ecoend,tamanho=tamanho)
+elif args.ind==2:
+    ind2(geo=geo,ecoinit=ecoinit,ecoend=ecoend,tamanho=tamanho)
+elif arg.ind==3:
+    ind3(geo=geo,ecoinit=ecoinit,ecoend=ecoend,tamanho=tamanho)

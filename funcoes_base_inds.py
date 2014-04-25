@@ -5,6 +5,7 @@
 '''
 
 
+import argparse
 import time
 from conversoes import convertecbo, converteuf, convertecnae, converteescol, convertemicro, convertemeso
 import numpy as np
@@ -288,6 +289,16 @@ def basesdef(tamanho):
     if tamanho==11: listabases=['r11.txt']
     return listabases
 
+def cmdlparser():
+    parser = argparse.ArgumentParser(description='Process some integers.')
+    parser.add_argument("-b", "--base", type=int, choices=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], default=5, help="Escolhe a base a ser usada, 0...11    0:completa    1:10perc.    2:1perc.    3:.25perc.    4:.25perc., para 2006 e 2007    5:.25perc., para 2006    6: 2006 inteira    7: 2007 inteira    ...    11: 2011 inteira    ")
+    parser.add_argument("-g", "--geo", type=str, choices = ['uf','micro','meso'], default='uf', help="Escolhe a unidade geográfica: uf, micro meso.")
+    parser.add_argument("-ei", "--ecoinit", type=int, choices = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,12,13,14,15,16], default='16', help="Escolhe o ecossistema inicial a ser processado: 1...16")
+    parser.add_argument("-ee", "--ecoend", type=int, choices = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,12,13,14,15,16], default='16', help="Escolhe o ecossistema final a ser processado: 1...16")
+    parser.add_argument("-i", "--ind", type=int, choices = [1,2,3], default=1, help="Escolhe o indicador a ser rodado.")
+
+    args = parser.parse_args()
+    return args
 
 
 '''

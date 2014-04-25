@@ -92,7 +92,9 @@ def rodar(bases,defs,geo,neco):
     ...
     11: 2011 inteira
 '''
+#geo='uf',ecoinit=16,ecoend=16,tamanho=5
 def ind1(geo='uf',ecoinit=16,ecoend=16,tamanho=5):
+    args=cmdlparser()
     tglobal=time.time()
     print "Começando o programa para o indicador 1..."
     geoindex, geoname=geodef(geo)

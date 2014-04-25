@@ -18,6 +18,9 @@
 		EB709F16185F39D3000E0366 /* roda_indicador.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = roda_indicador.py; sourceTree = "<group>"; };
 		EB709F17185F39D3000E0366 /* unifica_json.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = unifica_json.py; sourceTree = "<group>"; };
 		EB99336A18646C7A00E5B14A /* rodateste.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = rodateste.py; sourceTree = "<group>"; };
+		EBABD035190ACB9A006855EC /* indicadores feitos e a fazer.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "indicadores feitos e a fazer.txt"; sourceTree = "<group>"; };
+		EBABD036190AD07F006855EC /* ind4.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = ind4.py; sourceTree = "<group>"; };
+		EBABD037190AD7F8006855EC /* to-do.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "to-do.txt"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -32,8 +35,11 @@
 				EB709F14185F39D3000E0366 /* ind1.py */,
 				EB709F15185F39D3000E0366 /* ind2.py */,
 				EB709F11185F38DB000E0366 /* ind3.py */,
+				EBABD036190AD07F006855EC /* ind4.py */,
 				EB709F17185F39D3000E0366 /* unifica_json.py */,
 				EB709F16185F39D3000E0366 /* roda_indicador.py */,
+				EBABD035190ACB9A006855EC /* indicadores feitos e a fazer.txt */,
+				EBABD037190AD7F8006855EC /* to-do.txt */,
 				EB466CA6185F8A5D001C76C6 /* verifica_json.py */,
 			);
 			sourceTree = "<group>";

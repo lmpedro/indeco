@@ -17,16 +17,25 @@ from ind1 import ind1
 from ind2 import ind2
 from ind3 import ind3
 
-args=cmdlparser()
 
-geo=args.geo
-ecoinit=args.ecoinit
-ecoend=args.ecoend
-tamanho=args.base
+joe=[
+     [0,1,3],
+     [1,2,3],
+     [10,2,4],
+     [5,1,4],
+      ]
+arrayed=np.array(joe)
+print arrayed.shape
+new=arrayed.flatten()
+print new
+print arrayed[:,0]
 
-if args.ind==1:
-    ind1(geo=geo,ecoinit=ecoinit,ecoend=ecoend,tamanho=tamanho)
-elif args.ind==2:
-    ind2(geo=geo,ecoinit=ecoinit,ecoend=ecoend,tamanho=tamanho)
-elif arg.ind==3:
-    ind3(geo=geo,ecoinit=ecoinit,ecoend=ecoend,tamanho=tamanho)
+black=np.average(arrayed,0)
+print black
+
+try:
+    block=np.average(arrayed[:,0],weights=np.all([arrayed[:,1]==1,arrayed[:,2]==4],0),returned=1)
+    print block
+except ZeroDivisionError:
+    block=(None, None)
+    print block

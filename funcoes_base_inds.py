@@ -9,6 +9,7 @@ import argparse
 import time
 from conversoes import convertecbo, converteuf, convertecnae, converteescol, convertemicro, convertemeso
 import numpy as np
+import numpy.ma as ma
 import json
 import os
 
@@ -64,15 +65,17 @@ A função media recebe a base de dados (lista) a ser usada, a variável que ter
 '''
 
 def media(entrada,obj,ia,ib,ic,id,va,vb,vc,vd):
-    n,soma=0,0
-    for x in entrada:
-        if x[ia]==va and x[ib]==vb and x[ic]==vc and x[id]==vd:
-            soma+=x[obj]
-            n+=1
+    if entrada.shape==(0,):
+        return (None,None)
+
+    entrada=ma.array(entrada[:,obj],mask=np.invert(np.all([entrada[:,ia]==va,entrada[:,ib]==vb,entrada[:,ic]==vc,entrada[:,id]==vd],0)))
+
     try:
-        med=[round(float(float(soma)/n),2),n]
+        med=ma.average(entrada,returned=1)
+        med=(round(med[0],2),int(med[1]))
+        if med[0]=="NaN": return (None,None)
     except ZeroDivisionError:
-        med=[None,None]
+        return (None, None)
     return med
 
 '''
@@ -139,7 +142,7 @@ Essa função recebe uma matriz n-dimensional e retorna um vetor unidimensional.
 def lineariza(d):
     #a linha abaixo é uma maneira alternativa de mostrar as dimensões da entrada, em seus índices 0. Só é totalmente ajustada para matrizes 6-D, e apenas faz sentido usar em caso de erros.
     #print "Mostrando os vários len(d...)",len(d), len(d[0]), len(d[0][0]), len(d[0][0][0]), len(d[0][0][0][0]), len(d[0][0][0][0][0])
-    matriz6d = np.array(d)
+    matriz6d = ma.array(d)
     escopo = matriz6d.shape
     print "As dimensões da matriz de entrada são ",escopo
     vetor = matriz6d.flatten()
@@ -247,6 +250,7 @@ def calculo(bases,onlyprofss,sets,controls,neconum):
         #retira-se observações que não sejam do ecossistema em questão
         reduzido=keepif(reduzido,neconum,1)
         
+        reduzido=np.array(reduzido)
         second=[]
         for va in sets[0]:
             intermediary=[]

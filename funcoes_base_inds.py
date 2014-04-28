@@ -65,6 +65,7 @@ A função media recebe a base de dados (lista) a ser usada, a variável que ter
 '''
 
 def media(entrada,obj,ia,ib,ic,id,va,vb,vc,vd):
+    np.seterr(divide='raise',invalid='raise')
     if entrada.shape==(0,):
         return (None,None)
 
@@ -72,9 +73,11 @@ def media(entrada,obj,ia,ib,ic,id,va,vb,vc,vd):
 
     try:
         med=ma.average(entrada,returned=1)
+        if med[1]==0: return (None,None)
         med=(round(med[0],2),int(med[1]))
-        if med[0]=="NaN": return (None,None)
     except ZeroDivisionError:
+        return (None, None)
+    except FloatingPointError:
         return (None, None)
     return med
 

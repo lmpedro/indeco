@@ -13,11 +13,37 @@ import numpy.ma as ma
 import json
 import os
 
+'''
+Esta função recebe uma lista com o nome dos arquivos que deverão ser agregados para gerar a base de dados completas (com os vários anos) e uma lista com as variáveis que efetivamente serão utilizadas (para remover as demais). Retorna uma variável com a base de dados completas e um dicionário que traduz a posição das variáveis entre a base de dados original (com todas as vars.) e a arrumada.
+'''
+
+def arrumabases(listabases,vars):
+    tcartotal=time.time()
+    for ano in listabases:
+        tcar=time.time()
+        dados=carregabase(ano)
+        print dados
+        print dados.shape
+        print "\n"
+        vars.sort()
+        #retirar variáveis desnecessárias
+        reduzido,reduzidodef=keepvar(dados,vars)
+        try:
+            print bases.shape
+            bases=np.array([bases,reduzido])
+        except NameError:
+            bases=np.array(reduzido)
+        tcar=round((time.time()-tcar)/60,2)
+        print "Carregou ano",ano,"em",tcar,"min."
+    tcartotal=round((time.time()-tcartotal)/60,2)
+    print "Tempo total de carregar e arrumar bases:",tcartotal,"min."
+    print bases
+    print bases.shape
+    return bases,reduzidodef
 
 '''
 carregabase recebe o nome de um arquivo, carrega ele como uma lista e retorna esta, para ser usada como base de dados. Há uma rotina para identificar se dada variável é int, float ou str.
 '''
-
 
 def carregabase(entrada):
     caminhobase='/Users/pedro/CTI/Python/Bases/'
@@ -29,9 +55,7 @@ def carregabase(entrada):
         for x in range(len(lista)):
             lista[x]=lista[x].replace('\r\n','')
             lista[x]=lista[x].replace('\"','')
-            if lista[x]=='.': lista[x]=None
-            if lista[x]=='': lista[x]=None
-            if lista[x]=='\n': lista[x]=None
+            if lista[x]=='.' or lista[x]=='' or lista[x]=='\n': lista[x]=None
             if isinstance(lista[x],str):
                 try:
                     lista[x]=float(lista[x])
@@ -40,6 +64,7 @@ def carregabase(entrada):
                     pass
         if len(lista)>1: pronto.append(lista)
     linhas.close
+    pronto = np.array(pronto)
     return pronto
 
 '''
@@ -48,17 +73,19 @@ keepvar recebe uma base de dados e uma lista com o índice [0,1....n] das variá
 
 def keepvar(entrada,vars):
     vars.sort()
-    temptot, vardef=[],{}
-    for i in range(len(entrada)):
-        templine=[]
-        for j in range(len(entrada[0])):
-            for x in vars:
-                if j==x:
-                    templine.append(entrada[i][j])
-        temptot.append(templine)
-    for x in range(len(vars)):
-        vardef[vars[x]]=x
-    return temptot, vardef
+    j, condition, vardef = 0, [], {}
+    condition=[]
+    for i in range(vars[-1]+1):
+        if i==vars[j]:
+            condition.append(1)
+            vardef[vars[j]] = j
+            j+=1
+        else:
+            condition.append(0)
+
+    entrada = np.compress(condition, entrada, axis=1)
+
+    return entrada, vardef
 
 '''
 A função media recebe a base de dados (lista) a ser usada, a variável que terá sua média calculada, e quatro pares adicionais de condições: ix identifica a variável de condição de ser investigada e vx o valor que tal variável deve assumir para que dada observação seja incluída na média.
@@ -89,6 +116,16 @@ def uniquevalues(entrada,var):
     tempset=set()
     for x in entrada:
         tempset.add(x[var])
+    try: tempset.remove(None)
+    except KeyError: pass
+    sset=sorted(tempset)
+    return sset
+
+def uniquevaluesone(entrada, maskerade):
+    tempset=set()
+    for x in range(len(entrada)):
+        if maskerade[x]:
+            tempset.add(entrada[x])
     try: tempset.remove(None)
     except KeyError: pass
     sset=sorted(tempset)
@@ -170,25 +207,6 @@ def geodef(geo):
 
     return indgeo, auxgeo
 
-'''
-Esta função recebe uma lista com o nome dos arquivos que deverão ser agregados para gerar a base de dados completas (com os vários anos) e uma lista com as variáveis que efetivamente serão utilizadas (para remover as demais). Retorna uma variável com a base de dados completas e um dicionário que traduz a posição das variáveis entre a base de dados original (com todas as vars.) e a arrumada.
-'''
-
-def arrumabases(listabases,vars):
-    tcartotal=time.time()
-    bases=[]
-    for ano in listabases:
-        tcar=time.time()
-        dados=carregabase(ano)
-        vars.sort()
-        #retirar variáveis desnecessárias
-        reduzido,reduzidodef=keepvar(dados,vars)
-        bases.append(reduzido)
-        tcar=round((time.time()-tcar)/60,2)
-        print "Carregou ano",ano,"em",tcar,"min."
-    tcartotal=round((time.time()-tcartotal)/60,2)
-    print "Tempo total de carregar e arrumar bases:",tcartotal,"min."
-    return bases,reduzidodef
 
 '''
     Função que cria os jsons para a saída. Recebe o seguinte:
@@ -271,6 +289,23 @@ def calculo(bases,onlyprofss,sets,controls,neconum):
     
     vetor=lineariza(first)
     return vetor
+
+#controls: lista com sete ints que indicam a posição da variável objetiva [0], da variável de ecossistemas[1], da variável de profss[2], da variável geográfica[3], da variável de cnaes[4] e das duas variáveis de controle específicas [5-6] na base de dados
+
+def setdef(base,controlador,neconum=0,onlyprofss=0):
+    sets=[]
+    sets.append(uniquevalues(base[:,controlador[3]],np.ones(len(base[:,controlador[3]]))))
+    maskerade=np.array(base[:,controlador[1]]==neconum)
+    sets.append(uniquevalues(base[:,controlador[4]],maskerade))
+    h=5
+    for x in onlyprofss:
+        if x:
+            maskeradeb=np.all((np.array(base[:,controlador[2]]==1),maskerade),0)
+            sets.append(uniquevalues(base[:,controlador[h]],maskeradeb))
+        else:
+            sets.append(uniquevalues(base[:,controlador[h]],maskerade))
+        h+=1
+    return sets
 
 '''
    Essa função define o nome das bases a serem utilizadas, recebendo como input o tamanho. Retorna uma lista com os caminhos dos arquivos 

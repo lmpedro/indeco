@@ -111,8 +111,29 @@ def setdef(base,controlador,neconum=0,onlyprofss=0):
     return sets
 
 setdef(joe,[0,1,0,2,1,0,0],2,[0,1])
-                                                                             
-                                                                             
+
+try:
+    john[0,1,0]
+    print len(john)
+except all:
+    pass
+
+bloke=np.empty(0)
+print bloke
+
+bloke=np.append(bloke,np.array(3))
+bloke=np.append(bloke,np.array(2))
+#bloke=np.hstack((bloke,np.array(1)))
+#bloke=np.hstack((bloke,np.array(1)))
+print bloke
+print bloke.shape
+bi=np.array([bloke,bloke])
+print bi
+bi
+
+print john[1,:,0]
+print np.ma.average(john[1,:,0]==1)
+
 #controls: lista com sete ints que indicam a posição da variável objetiva [0], da variável de ecossistemas[1], da variável de profss[2], da variável geográfica[3], da variável de cnaes[4] e das duas variáveis de controle específicas [5-6] na base de dados
 
 

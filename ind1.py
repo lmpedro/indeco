@@ -18,35 +18,28 @@ Trata-se do programa central. Recebe uma base de dados (com todos os anos), um d
 
 def rodar(bases,defs,geo,neco):
     neconum=ecotransform(neco)
-    reduzido=bases[-1]
     geoindex, geoname=geodef(geo)
     
-    #controls: lista com cinco ints que indicam a posição da variável objetiva [0] e das variáveis de controle [1-4] na base de dados
+    #controls: lista com nove ints que indicam a posição da variável objetiva [0], da variável do ecossistema em questão[1], da variável de profss[2], da variável geográfica[3], da variável de cnaes[4], das duas variáveis de controle específicas [5-6] na base de dados, se as duas variáveis de controle devem ser definidas apenas para profss[7] e se o indicador em si é calculado apenas a partir dos PROFSSs [8].
     controls=[
-              defs[29],
+              defs[25],
+              defs[neco],
+              defs[24],
               int(defs[geoindex]),
               defs[0],
               defs[17],
-              defs[19],
+              defs[18],
+              [1,1],
+              [1]
               ]
-              
-    #sets: lista com quatro elementos, cada um deles um set dos valores únicos pelos quais se deve iterar as variáveis de controle
+        
+    try:
+        bases[0,0,0]
+        sets=setdef(bases[-1,:,:],controls,neco)
+    except IndexError:
+        sets=setdef(bases,controls,neco)
 
-    #criar os conjuntos de valores através dos quais se deve iterar ao calcular as médias. Geram-se listas ordenadas dos valores únicos de uf, cnae... Resume-se a base às observações do ecossistema para restringir o conjunto de cnaes àquelas do ecossistema, e retiram-se observações que não sejam de profss para captar apenas as CBOs dessa categoria.
-    sets=[]
-    sets.append(uniquevalues(reduzido,controls[1]))
-    #retirar observações que não são do ecossistema em questão
-    reduzidobeta=keepif(reduzido,defs[neconum],1)
-    sets.append(uniquevalues(reduzidobeta,controls[2]))
-    sets.append(uniquevalues(reduzido,controls[3]))
-    #retirar observações que não são de PROFSSs
-    reduzido=keepif(reduzido,defs[28],1)
-    sets.append(uniquevalues(reduzido,controls[4]))
-
-    #identifica se a função utiliza dados de todos os trabalhadores ou somente de PROFSSs e a posição da variável de PROFSSs
-    onlyprofss=[1,defs[28]]
-    #chama a função que calcula as estatísticas de interesse, retornando um vetor nx1
-    vetor=calculo(bases,onlyprofss,sets,controls,neconum)
+    vetor=calculo(bases,sets,controls,neco)
 
     #criar as listas que servirão de índice aos jsons
     lista_indices=[]
@@ -95,6 +88,7 @@ def rodar(bases,defs,geo,neco):
 #geo='uf',ecoinit=16,ecoend=16,tamanho=5
 def ind1(geo='uf',ecoinit=16,ecoend=16,tamanho=5):
     args=cmdlparser()
+    np.seterr(divide='raise',invalid='raise')
     tglobal=time.time()
     print "Começando o programa para o indicador 1..."
     geoindex, geoname=geodef(geo)
@@ -103,7 +97,7 @@ def ind1(geo='uf',ecoinit=16,ecoend=16,tamanho=5):
     #definição das bases a serem utilizadas
     listabases=basesdef(tamanho)
     
-    vars=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,19,28,29,geoindex]
+    vars=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,24,25,geoindex]
     bases,reduzidodef=arrumabases(listabases,vars)
     
     fonte=u"RAIS/MTE (2006-2011)"
@@ -166,5 +160,37 @@ def ind1(geo='uf',ecoinit=16,ecoend=16,tamanho=5):
     v33   sw3
     v34   tamestab
     v35   uf
+    
+    
+    0	cnae20classe
+    1	ecossis_01
+    2	ecossis_02
+    3	ecossis_03
+    4	ecossis_04
+    5	ecossis_05
+    6	ecossis_06
+    7	ecossis_07
+    8	ecossis_08
+    9	ecossis_09
+    10	ecossis_10
+    11	ecossis_11
+    12	ecossis_12
+    13	ecossis_13
+    14	ecossis_14
+    15	ecossis_15
+    16	ecossis_16
+    17	escol_fx
+    18	familia
+    19	idade
+    20	mesorregi
+    21	microrregi
+    22	municipio
+    23	pnivel
+    24	profss
+    25	sal_dez
+    26	sexo
+    27	swfx
+    28	tamestab
+    29	uf
 
 '''

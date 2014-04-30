@@ -22,9 +22,6 @@ def arrumabases(listabases,vars):
     for ano in listabases:
         tcar=time.time()
         dados=carregabase(ano)
-        print dados
-        print dados.shape
-        print "\n"
         vars.sort()
         #retirar variáveis desnecessárias
         reduzido,reduzidodef=keepvar(dados,vars)
@@ -37,8 +34,6 @@ def arrumabases(listabases,vars):
         print "Carregou ano",ano,"em",tcar,"min."
     tcartotal=round((time.time()-tcartotal)/60,2)
     print "Tempo total de carregar e arrumar bases:",tcartotal,"min."
-    print bases
-    print bases.shape
     return bases,reduzidodef
 
 '''
@@ -86,27 +81,6 @@ def keepvar(entrada,vars):
     entrada = np.compress(condition, entrada, axis=1)
 
     return entrada, vardef
-
-'''
-A função media recebe a base de dados (lista) a ser usada, a variável que terá sua média calculada, e quatro pares adicionais de condições: ix identifica a variável de condição de ser investigada e vx o valor que tal variável deve assumir para que dada observação seja incluída na média.
-'''
-
-def media(entrada,obj,ia,ib,ic,id,va,vb,vc,vd):
-    np.seterr(divide='raise',invalid='raise')
-    if entrada.shape==(0,):
-        return (None,None)
-
-    entrada=ma.array(entrada[:,obj],mask=np.invert(np.all([entrada[:,ia]==va,entrada[:,ib]==vb,entrada[:,ic]==vc,entrada[:,id]==vd],0)))
-
-    try:
-        med=ma.average(entrada,returned=1)
-        if med[1]==0: return (None,None)
-        med=(round(med[0],2),int(med[1]))
-    except ZeroDivisionError:
-        return (None, None)
-    except FloatingPointError:
-        return (None, None)
-    return med
 
 '''
 uniquevalues retorna uma lista ordenada com todos os valores únicos da variável especificada na lista determinada
@@ -196,13 +170,13 @@ geodef recebe uf, meso ou micro como entrada e retorna duas variáveis, uma com 
 
 def geodef(geo):
     if geo=='meso':
-        indgeo=int(22)
+        indgeo=int(20)
         auxgeo="Mesorregião"
     if geo=='micro':
-        indgeo=int(23)
+        indgeo=int(21)
         auxgeo="Microrregião",
     if geo=='uf':
-        indgeo=int(35)
+        indgeo=int(29)
         auxgeo="Unidade da Federação"
 
     return indgeo, auxgeo
@@ -259,51 +233,72 @@ def jsoncreate(results,indices,geo,neco,tamanho,fonte,indicador,estrutura,nind):
     neconum: posição na base de dados da variável que indica se a observação em questão pertence ao ecossistema para o qual se calcula
 '''
 
-def calculo(bases,onlyprofss,sets,controls,neconum):
-    first=[]
-    for index in range(len(bases)):
-        reduzido=bases[index]
-        
-        #retira-se observações que não sejam de profss
-        assert onlyprofss[0]==0 or onlyprofss[0]==1
-        if onlyprofss[0]==1:
-            reduzido=keepif(reduzido,onlyprofss[1],1)
-        #retira-se observações que não sejam do ecossistema em questão
-        reduzido=keepif(reduzido,neconum,1)
-        
-        reduzido=np.array(reduzido)
-        second=[]
-        for va in sets[0]:
-            intermediary=[]
-            for vb in sets[1]:
-                theonebeforelast=[]
-                for vc in sets[2]:
-                    lastinstance=[]
-                    for vd in sets[3]:
-                        med=media(reduzido,controls[0],controls[1],controls[2],controls[3],controls[4],va,vb,vc,vd)
-                        lastinstance.append(med)
-                    theonebeforelast.append(lastinstance)
-                intermediary.append(theonebeforelast)
-            second.append(intermediary)
-        first.append(second)
+def calculo(bases,sets,controls,neconum):
+    try:
+        bases[0,0,0]
+        ano=1
+    except IndexError:
+        ano=0
     
-    vetor=lineariza(first)
-    return vetor
+    final=np.empty(0)
+    if ano==1:
+        for index in range(len(bases)):
+            np.append(final,loopcal(bases[index,:,:],sets,controls,neconum))
+    else:
+        np.append(final,loopcal(bases,sets,controls,neconum))
+
+    return final
+
+def loopcal(base,sets,controls,neconum):
+    first=np.empty(0)
+    for va in sets[0]:
+        for vb in sets[1]:
+            for vc in sets[2]:
+                for vd in sets[3]:
+                    if controls[8]:
+                        weight=np.all((base[:,controls[1]]==1,base[:,controls[3]]==va,base[:,controls[4]]==vb,base[:,controls[5]]==vc,base[:,controls[6]]==vd),0)
+                    else:
+                        weight=np.all((base[:,controls[1]]==1,base[:,controls[2]]==1,base[:,controls[3]]==va,base[:,controls[4]]==vb,base[:,controls[5]]==vc,base[:,controls[6]]==vd),0)
+                    med=media(base[:,controls[0]],weight)
+                    np.append(first,med)
+        print "BBB"
+    print "AAA"
+
+    return first
+
 
 #controls: lista com sete ints que indicam a posição da variável objetiva [0], da variável de ecossistemas[1], da variável de profss[2], da variável geográfica[3], da variável de cnaes[4] e das duas variáveis de controle específicas [5-6] na base de dados
 
-def setdef(base,controlador,neconum=0,onlyprofss=0):
+'''
+A função media recebe a base de dados (lista) a ser usada, a variável que terá sua média calculada, e quatro pares adicionais de condições: ix identifica a variável de condição de ser investigada e vx o valor que tal variável deve assumir para que dada observação seja incluída na média.
+'''
+
+def media(entrada,weight):
+    if entrada.shape==(0,):
+        return (None,None)
+
+    try:
+        med=np.ma.average(entrada,weights=weight,returned=1)
+        if med[1]==0: return (None,None)
+        med=(round(med[0],2),int(med[1]))
+    except ZeroDivisionError:
+        return (None, None)
+    except FloatingPointError:
+        return (None, None)
+    return med
+
+def setdef(base,controlador,neconum):
     sets=[]
-    sets.append(uniquevalues(base[:,controlador[3]],np.ones(len(base[:,controlador[3]]))))
-    maskerade=np.array(base[:,controlador[1]]==neconum)
-    sets.append(uniquevalues(base[:,controlador[4]],maskerade))
+    sets.append(uniquevaluesone(base[:,controlador[3]], np.ones(len(base[:,controlador[3]]))))
+    maskerade=np.array(base[:,controlador[1]]==1)
+    sets.append(uniquevaluesone(base[:,controlador[4]], maskerade))
     h=5
-    for x in onlyprofss:
+    for x in controlador[-2]:
         if x:
-            maskeradeb=np.all((np.array(base[:,controlador[2]]==1),maskerade),0)
-            sets.append(uniquevalues(base[:,controlador[h]],maskeradeb))
+            maskeradeb=np.all((np.array(base[:,controlador[2]]==1), maskerade),0)
+            sets.append(uniquevaluesone(base[:,controlador[h]], maskeradeb))
         else:
-            sets.append(uniquevalues(base[:,controlador[h]],maskerade))
+            sets.append(uniquevaluesone(base[:,controlador[h]], maskerade))
         h+=1
     return sets
 
@@ -317,7 +312,7 @@ def basesdef(tamanho):
     if tamanho==2: listabases=['r06s1.txt','r07s1.txt','r08s1.txt','r09s1.txt','r10s1.txt','r11s1.txt']
     if tamanho==3: listabases=['r06s.txt','r07s.txt','r08s.txt','r09s.txt','r10s.txt','r11s.txt']
     if tamanho==4: listabases=['r06s.txt','r07s.txt']
-    if tamanho==5: listabases=['r06s.txt']
+    if tamanho==5: listabases=['r07sp25.txt']
     if tamanho==6: listabases=['r06.txt']
     if tamanho==7: listabases=['r07.txt']
     if tamanho==8: listabases=['r08.txt']

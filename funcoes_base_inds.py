@@ -21,8 +21,13 @@ carregabase recebe o nome de um arquivo, carrega ele como uma lista e retorna es
 
 def carregabase(entrada):
     caminhobase='/Users/pedro/CTI/Python/Bases/'
-    linhas=open(caminhobase+entrada,'r')
-    
+    dados=open(caminhobase+entrada,'r')
+
+    linhas = []
+
+    for x in dados:
+        linhas.append(x)
+
     pronto= []
     for linha in linhas:
         lista = linha.split(";")
@@ -39,7 +44,7 @@ def carregabase(entrada):
                 except ValueError:
                     pass
         if len(lista)>1: pronto.append(lista)
-    linhas.close
+    dados.close
     return pronto
 
 '''

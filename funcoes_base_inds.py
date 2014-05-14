@@ -153,13 +153,13 @@ geodef recebe uf, meso ou micro como entrada e retorna duas variáveis, uma com 
 
 def geodef(geo):
     if geo=='meso':
-        indgeo=int(22)
+        indgeo=int(20)
         auxgeo="Mesorregião"
     if geo=='micro':
-        indgeo=int(23)
+        indgeo=int(21)
         auxgeo="Microrregião",
     if geo=='uf':
-        indgeo=int(35)
+        indgeo=int(33)
         auxgeo="Unidade da Federação"
 
     return indgeo, auxgeo
@@ -282,11 +282,15 @@ def basesdef(tamanho):
     if tamanho==9: listabases=['r09.txt']
     if tamanho==10: listabases=['r10.txt']
     if tamanho==11: listabases=['r11.txt']
+    if tamanho==12: listabases=['r12.txt']
+    if tamanho==13: listabases=['r11s.txt']
+    if tamanho==14: listabases=['r10s.txt', 'r11s.txt']
+    if tamanho==15: listabases=['r07s.txt','r08s.txt','r09s.txt','r10s.txt','r11s.txt','r12s.txt']
     return listabases
 
 def cmdlparser():
     parser = argparse.ArgumentParser(description='Process some integers.')
-    parser.add_argument("-b", "--base", type=int, choices=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], default=5, help="Escolhe a base a ser usada, 0...11    0:completa    1:10perc.    2:1perc.    3:.25perc.    4:.25perc., para 2006 e 2007    5:.25perc., para 2006    6: 2006 inteira    7: 2007 inteira    ...    11: 2011 inteira    ")
+    parser.add_argument("-b", "--base", type=int, choices=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], default=5, help="Escolhe a base a ser usada, 0...11    0:completa    1:10perc.    2:1perc.    3:.25perc.    4:.25perc., para 2006 e 2007    5:.25perc., para 2006    6: 2006 inteira    7: 2007 inteira    ...    11: 2011 inteira    ")
     parser.add_argument("-g", "--geo", type=str, choices = ['uf','micro','meso'], default='uf', help="Escolhe a unidade geográfica: uf, micro meso.")
     parser.add_argument("-ei", "--ecoinit", type=int, choices = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,12,13,14,15,16], default='16', help="Escolhe o ecossistema inicial a ser processado: 1...16")
     parser.add_argument("-ee", "--ecoend", type=int, choices = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,12,13,14,15,16], default='16', help="Escolhe o ecossistema final a ser processado: 1...16")

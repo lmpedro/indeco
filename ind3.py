@@ -17,17 +17,17 @@ from funcoes_base_inds import *
 '''
 
 def rodar(bases,defs,geo,neco):
-    neconum=ecotransform(neco)
+    neconum=neco
     reduzido=bases[-1]
     geoindex, geoname=geodef(geo)
     
     #controls: lista com cinco ints que indicam a posição da variável objetiva [0] e das variáveis de controle [1-4] na base de dados
     controls=[
-              defs[28],
+              defs[26],
               int(defs[geoindex]),
               defs[0],
               defs[17],
-              defs[30],
+              defs[28],
               ]
               
     #sets: lista com quatro elementos, cada um deles um set dos valores únicos pelos quais se deve iterar as variáveis de controle
@@ -42,7 +42,7 @@ def rodar(bases,defs,geo,neco):
     sets.append(uniquevalues(reduzido,controls[4]))
 
     #identifica se a função utiliza dados de todos os trabalhadores ou somente de PROFSSs e a posição da variável de PROFSSs
-    onlyprofss=[0,defs[28]]
+    onlyprofss=[0,defs[26]]
     #chama a função que calcula as estatísticas de interesse, retornando um vetor nx1
     vetor=calculo(bases,onlyprofss,sets,controls,neconum)
 
@@ -66,8 +66,8 @@ def rodar(bases,defs,geo,neco):
       listic.append(y)
     listid=[]
     for x in sets[3]:
-        if x==1: y="Mulher"
-        if x==2: y="Homem"
+        if x==1: y="Homem"
+        if x==2: y="Mulher"
         listid.append(y)
 
     lista_indices.append(listia)
@@ -98,7 +98,7 @@ def ind3(geo='uf',ecoinit=16,ecoend=16,tamanho=5):
     #definição das bases a serem utilizadas
     listabases=basesdef(tamanho)
     
-    vars=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,28,30,geoindex]
+    vars=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,26,28,geoindex]
     bases,reduzidodef=arrumabases(listabases,vars)
     
     fonte=u"RAIS/MTE (2006-2011)"

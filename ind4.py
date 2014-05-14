@@ -17,17 +17,17 @@ from funcoes_base_inds import *
 '''
 
 def rodar(bases,defs,geo,neco):
-    neconum=ecotransform(neco)
+    neconum=neco
     reduzido=bases[-1]
     geoindex, geoname=geodef(geo)
     
     #controls: lista com cinco ints que indicam a posição da variável objetiva [0] e das variáveis de controle [1-4] na base de dados
     controls=[
-              defs[26],
+              defs[24],
               int(defs[geoindex]),
               defs[0],
-              defs[34],
-              defs[30],
+              defs[32],
+              defs[28],
               ]
               
     #sets: lista com quatro elementos, cada um deles um set dos valores únicos pelos quais se deve iterar as variáveis de controle
@@ -40,11 +40,11 @@ def rodar(bases,defs,geo,neco):
     sets.append(uniquevalues(reduzidobeta,controls[2]))
     sets.append(uniquevalues(reduzido,controls[3]))
     #retirar observações que não são de PROFSSs
-    reduzido=keepif(reduzido,defs[28],1)
+    reduzido=keepif(reduzido,defs[26],1)
     sets.append(uniquevalues(reduzido,controls[4]))
 
     #identifica se a função utiliza dados de todos os trabalhadores ou somente de PROFSSs e a posição da variável de PROFSSs
-    onlyprofss=[1,defs[28]]
+    onlyprofss=[1,defs[26]]
     #chama a função que calcula as estatísticas de interesse, retornando um vetor nx1
     #print bases
     vetor=calculo(bases,onlyprofss,sets,controls,neconum)
@@ -69,8 +69,8 @@ def rodar(bases,defs,geo,neco):
       listic.append(y)
     listid=[]
     for x in sets[3]:
-        if x==1: y="Mulher"
-        if x==2: y="Homem"
+        if x==1: y="Homem"
+        if x==2: y="Mulher"
         listid.append(y)
 
     lista_indices.append(listia)
@@ -95,7 +95,7 @@ def ind4(geo='uf',ecoinit=16,ecoend=16,tamanho=5):
     #definição das bases a serem utilizadas
     listabases=basesdef(tamanho)
     
-    vars=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,26,28,30,34,geoindex]
+    vars=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,24,26,28,32,geoindex]
     bases,reduzidodef=arrumabases(listabases,vars)
     
     fonte=u"RAIS/MTE (2006-2011)"

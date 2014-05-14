@@ -70,8 +70,10 @@ def specprint(dados,a,b,c,d,e,f):
     
 '''
 
-caminho='/Users/pedro/CTI/Python/Dashboard/Indicadores/Base0/'
-nomearquivo=['d_BRuf0315.json','d_BRuf0316.json']
+#caminho='/Users/pedro/CTI/Python/Dashboard/Indicadores/Base0/'
+#nomearquivo=['d_BRuf0315.json','d_BRuf0316.json']
+caminho='/Users/pedro/CTI/Python/Dashboard/Indicadores/Base15/'
+nomearquivo=['d_BRuf0516.json']
 dados=carrega_json(caminho+nomearquivo[0])
 
 dimensoes, multiplicadores=lerindices(dados)
@@ -108,7 +110,7 @@ specprint(dados,1,18,3,2,1,0)
 specprint(dados,1,18,3,2,1,1)
 specprint(dados,0,18,3,2,1,0)
 specprint(dados,0,18,3,2,1,1)
-
+'''
 dados=carrega_json(caminho+nomearquivo[1])
 
 dimensoes, multiplicadores=lerindices(dados)
@@ -145,7 +147,7 @@ specprint(dados,1,26,3,2,1,0)
 specprint(dados,1,26,3,2,1,1)
 specprint(dados,0,26,3,2,1,0)
 specprint(dados,0,26,3,2,1,1)
-
+'''
 '''
 dados=carrega_json('d_BRuf0301.json')
 
@@ -183,6 +185,7 @@ specprint(dados,1,26,3,2,0,0)
 specprint(dados,1,26,3,2,0,1)
 specprint(dados,0,26,3,2,0,0)
 specprint(dados,0,26,3,2,0,1)
+
 '''
 
 '''

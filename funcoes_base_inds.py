@@ -300,6 +300,17 @@ def cmdlparser():
     return args
 
 
+
+#Carrega um json e retorna ele como dicionário.
+def carrega_json(entrada):
+    j = open(entrada,"r")
+    for a in j:
+        d = json.loads(a)
+    j.close()
+    return d
+
+
+
 '''
     Esta é a lista das variáveis nas bases de dados cruas.
     

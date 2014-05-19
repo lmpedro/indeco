@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXFileReference section */
+		EB2ACFE1192A985A00E6BDCE /* criasets.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = criasets.py; sourceTree = "<group>"; };
 		EB3242E018620915009D3DD1 /* testesdiversos.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = testesdiversos.py; sourceTree = "<group>"; };
 		EB368AF51860C9F4000F936F /* functest.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = functest.py; sourceTree = "<group>"; };
 		EB466CA6185F8A5D001C76C6 /* verifica_json.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = verifica_json.py; sourceTree = "<group>"; };
@@ -29,6 +30,7 @@
 		EB709F06185F383D000E0366 = {
 			isa = PBXGroup;
 			children = (
+				EB2ACFE1192A985A00E6BDCE /* criasets.py */,
 				EB3242E018620915009D3DD1 /* testesdiversos.py */,
 				EB99336A18646C7A00E5B14A /* rodateste.py */,
 				EB368AF51860C9F4000F936F /* functest.py */,

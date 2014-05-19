@@ -2,13 +2,7 @@
 
 import time
 import json
-
-def carrega_json(entrada):
-    j = open(entrada,"r")
-    for a in j:
-        d = json.loads(a)
-    j.close()
-    return d
+from funcoes_base_inds import carrega_json
 
 def posicao(dados,a,b,c,d,e,f):
     dimensoes, multiplicadores=lerindices(dados)
@@ -59,6 +53,7 @@ def lerindices(entrada):
 
 def specprint(dados,a,b,c,d,e,f):
     z,defs=posicao(dados,a,b,c,d,e,f)
+    print "z is %s" %z
     print dados['valores'][z]
 
 '''
@@ -72,44 +67,30 @@ def specprint(dados,a,b,c,d,e,f):
 
 #caminho='/Users/pedro/CTI/Python/Dashboard/Indicadores/Base0/'
 #nomearquivo=['d_BRuf0315.json','d_BRuf0316.json']
-caminho='/Users/pedro/CTI/Python/Dashboard/Indicadores/Base15/'
-nomearquivo=['d_BRuf0616.json']
+caminho='/Users/pedro/CTI/Python/Dashboard/Indicadores/Base0/'
+nomearquivo=['d_BRmeso0115.json']
 dados=carrega_json(caminho+nomearquivo[0])
 
 dimensoes, multiplicadores=lerindices(dados)
+print dimensoes
+print multiplicadores
+print len(dados['valores'])
+a1, a2, a3, a4 = 19,1,2,0
+b1, b2, b3, b4 = 81,3,2,1
 
-z,defs=posicao(dados,5,19,1,3,0,0)
+z,defs=posicao(dados,5,a1, a2, a3, a4,0)
 print defs
-z,defs=posicao(dados,5,18,3,2,1,0)
+z,defs=posicao(dados,5,b1, b2, b3, b4,0)
 print defs
 
-specprint(dados,5,19,1,3,0,0)
-specprint(dados,5,19,1,3,0,1)
-specprint(dados,4,19,1,3,0,0)
-specprint(dados,4,19,1,3,0,1)
-specprint(dados,3,19,1,3,0,0)
-specprint(dados,3,19,1,3,0,1)
-specprint(dados,2,19,1,3,0,0)
-specprint(dados,2,19,1,3,0,1)
-specprint(dados,1,19,1,3,0,0)
-specprint(dados,1,19,1,3,0,1)
-specprint(dados,0,19,1,3,0,0)
-specprint(dados,0,19,1,3,0,1)
+for i in reversed(range(6)):
+    for h in range(2):
+        specprint(dados,i,a1, a2, a3, a4,h)
 
 print "mudemos!"
-
-specprint(dados,5,18,3,2,1,0)
-specprint(dados,5,18,3,2,1,1)
-specprint(dados,4,18,3,2,1,0)
-specprint(dados,4,18,3,2,1,1)
-specprint(dados,3,18,3,2,1,0)
-specprint(dados,3,18,3,2,1,1)
-specprint(dados,2,18,3,2,1,0)
-specprint(dados,2,18,3,2,1,1)
-specprint(dados,1,18,3,2,1,0)
-specprint(dados,1,18,3,2,1,1)
-specprint(dados,0,18,3,2,1,0)
-specprint(dados,0,18,3,2,1,1)
+for i in reversed(range(6)):
+    for h in range(2):
+        specprint(dados,i,b1, b2, b3, b4,h)
 '''
 dados=carrega_json(caminho+nomearquivo[1])
 

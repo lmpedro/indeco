@@ -3,13 +3,7 @@
 import time
 import json
 import numpy as np
-
-def carrega_json(entrada):
-    j = open(entrada,"r")
-    for a in j:
-        d = json.loads(a)
-    j.close()
-    return d
+from funcoes_base_inds import carrega_json
 
 def juncao(geo='uf',ind=1):
     caminho='/Users/pedro/CTI/Python/Dashboard/Indicadores/Base0/d_BR%s' % geo
@@ -18,7 +12,7 @@ def juncao(geo='uf',ind=1):
         jota=[]
         for x in range(6,12):
             
-            nomele='/Users/pedro/CTI/Python/Dashboard/Indicadores/Base%i/d_BRuf0%i%02i.json' % (x, ind, q)
+            nomele='/Users/pedro/CTI/Python/Dashboard/Indicadores/Base%i/d_BR%s%02i%02i.json' % (x, geo, ind, q)
             
             dados=carrega_json(nomele)
             for gama in dados['valores']:

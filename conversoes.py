@@ -2047,3 +2047,49 @@ def convertetamestab(entrada):
     elif entrada==10: saida="1000 ou mais empregados(as)"
 
     return saida
+
+
+
+
+
+
+
+
+def convertevar(number):
+
+    if number == 0: output = "classe_cnae_20"
+    elif number == 1: output = "ecossis_01"
+    elif number == 2: output = "ecossis_02"
+    elif number == 3: output = "ecossis_03"
+    elif number == 4: output = "ecossis_04"
+    elif number == 5: output = "ecossis_05"
+    elif number == 6: output = "ecossis_06"
+    elif number == 7: output = "ecossis_07"
+    elif number == 8: output = "ecossis_08"
+    elif number == 9: output = "ecossis_09"
+    elif number == 10: output = "ecossis_10"
+    elif number == 11: output = "ecossis_11"
+    elif number == 12: output = "ecossis_12"
+    elif number == 13: output = "ecossis_13"
+    elif number == 14: output = "ecossis_14"
+    elif number == 15: output = "ecossis_15"
+    elif number == 16: output = "ecossis_16"
+    elif number == 17: output = "escol_fx"
+    elif number == 18: output = "familia"
+    elif number == 19: output = "idade"
+    elif number == 20: output = "mesorregi"
+    elif number == 21: output = "microrregi"
+    elif number == 22: output = "municipio"
+    elif number == 23: output = "pnivelesp"
+    elif number == 24: output = "pnivelger"
+    elif number == 25: output = "pniveltec"
+    elif number == 26: output = "profss"
+    elif number == 27: output = "sal_dez"
+    elif number == 28: output = "sexo"
+    elif number == 29: output = "sw1"
+    elif number == 30: output = "sw2"
+    elif number == 31: output = "sw3"
+    elif number == 32: output = "tamestab"
+    elif number == 33: output = "uf"
+
+    return output

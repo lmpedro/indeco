@@ -73,7 +73,7 @@ def specprint(dados,a,b,c,d,e,f):
 #caminho='/Users/pedro/CTI/Python/Dashboard/Indicadores/Base0/'
 #nomearquivo=['d_BRuf0315.json','d_BRuf0316.json']
 caminho='/Users/pedro/CTI/Python/Dashboard/Indicadores/Base15/'
-nomearquivo=['d_BRuf0516.json']
+nomearquivo=['d_BRuf0616.json']
 dados=carrega_json(caminho+nomearquivo[0])
 
 dimensoes, multiplicadores=lerindices(dados)

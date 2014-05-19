@@ -11,18 +11,14 @@ def carrega_json(entrada):
     j.close()
     return d
 
-caminho='/Users/pedro/CTI/Python/Dashboard/Indicadores/Base0/d_BRuf'
-
-for w in range(3,4):
+def juncao(geo='uf',ind=1):
+    caminho='/Users/pedro/CTI/Python/Dashboard/Indicadores/Base0/d_BR%s' % geo
 
     for q in range(1,17):
         jota=[]
         for x in range(6,12):
             
-            if q<10:
-                nomele='/Users/pedro/CTI/Python/Dashboard/Indicadores/Base'+str(x)+'/d_BRuf0'+str(w)+'0'+str(q)+'.json'
-            else:
-                nomele='/Users/pedro/CTI/Python/Dashboard/Indicadores/Base'+str(x)+'/d_BRuf0'+str(w)+str(q)+'.json'
+            nomele='/Users/pedro/CTI/Python/Dashboard/Indicadores/Base%i/d_BRuf0%i%02i.json' % (x, ind, q)
             
             dados=carrega_json(nomele)
             for gama in dados['valores']:
@@ -30,10 +26,10 @@ for w in range(3,4):
 
         dados['valores']=jota
 
-        if q<10:
-            nomegrava=caminho+'0'+str(w)+'0'+str(q)+'.json'
-        else:
-            nomegrava=caminho+'0'+str(w)+str(q)+'.json'
+        nomegrava='%s%02i%02i.json' % (caminho, ind, q)
         arquivo = open(nomegrava,"w")
         arquivo.write(json.dumps(dados))
         arquivo.close()
+
+if __name__ == '__main__':
+    juncao(geo='meso',ind=1)

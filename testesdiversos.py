@@ -39,3 +39,11 @@ try:
 except ZeroDivisionError:
     block=(None, None)
     print block
+
+neco=1
+geoindex=21
+ca=17
+cb=18
+
+kobold=setter(neco=neco,geoindex=geoindex,ca=ca,cb=cb)
+print kobold

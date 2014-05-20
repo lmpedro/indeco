@@ -311,6 +311,22 @@ def carrega_json(entrada):
 
 
 
+def setter(neco,controls):
+    sets=[]
+    neco=unicode(neco)
+    geoindex=unicode(controls[1])
+    ca=unicode(controls[3])
+    cb=unicode(controls[4])
+    greatsets=carrega_json('/Users/pedro/CTI/Python/Dashboard/Projeto Indicadores/sets.json')
+    sets.append(greatsets[geoindex])
+    sets.append(greatsets[neco])
+    sets.append(greatsets[ca])
+    sets.append(greatsets[cb])
+    
+    return sets
+
+
+
 '''
     Esta é a lista das variáveis nas bases de dados cruas.
     

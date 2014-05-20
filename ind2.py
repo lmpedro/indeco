@@ -16,36 +16,32 @@ from funcoes_base_inds import *
     Trata-se do programa central. Recebe uma base de dados (com todos os anos), um dicionário que traduz as posições das variáveis entre a base crua e a completa, a identificação em str da dimensão geográfica e o identificador do ecossistema em questão (antes de ser transformado por 'ecotransform(x)'). Retorna um vetor nx1 com os resultados e uma lista com os indíces.
 '''
 def rodar(bases,defs,geo,neco):
-    neconum=neco
-    reduzido=bases[-1]
     geoindex, geoname=geodef(geo)
     
     #controls: lista com cinco ints que indicam a posição da variável objetiva [0] e das variáveis de controle [1-4] na base de dados
+    precontrol=[19,
+                geoindex,
+                0,
+                17,
+                18,
+                ]
     controls=[
-              defs[19],
-              int(defs[geoindex]),
-              defs[0],
-              defs[17],
-              defs[18],
+              defs[precontrol[0]],
+              int(defs[precontrol[1]]),
+              defs[precontrol[2]],
+              defs[precontrol[3]],
+              defs[precontrol[4]],
               ]
               
     #sets: lista com quatro elementos, cada um deles um set dos valores únicos pelos quais se deve iterar as variáveis de controle
 
     #criar os conjuntos de valores através dos quais se deve iterar ao calcular as médias. Geram-se listas ordenadas dos valores únicos de uf, cnae... Resume-se a base às observações do ecossistema para restringir o conjunto de cnaes àquelas do ecossistema, e retiram-se observações que não sejam de profss para captar apenas as CBOs dessa categoria.
-    sets=[]
-    sets.append(uniquevalues(reduzido,controls[1]))
-    #retirar observações que não são do ecossistema em questão
-    reduzidobeta=keepif(reduzido,defs[neconum],1)
-    sets.append(uniquevalues(reduzidobeta,controls[2]))
-    sets.append(uniquevalues(reduzido,controls[3]))
-    #retirar observações que não são de PROFSSs
-    reduzido=keepif(reduzido,defs[26],1)
-    sets.append(uniquevalues(reduzido,controls[4]))
+    sets=setter(neco=neco,controls=precontrol)
 
     #identifica se a função utiliza dados de todos os trabalhadores ou somente de PROFSSs e a posição da variável de PROFSSs
     onlyprofss=[1,defs[26]]
     #chama a função que calcula as estatísticas de interesse, retornando um vetor nx1
-    vetor=calculo(bases,onlyprofss,sets,controls,neconum)
+    vetor=calculo(bases,onlyprofss,sets,controls,neco)
 
     #criar as listas que servirão de índice aos jsons
     lista_indices=[]

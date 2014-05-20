@@ -17,7 +17,6 @@ Trata-se do programa central. Recebe uma base de dados (com todos os anos), um d
 '''
 
 def rodar(bases,defs,geo,neco):
-    reduzido=bases[-1]
     geoindex, geoname=geodef(geo)
     
     #controls: lista com cinco ints que indicam a posição da variável objetiva [0] e das variáveis de controle [1-4] na base de dados
@@ -36,8 +35,6 @@ def rodar(bases,defs,geo,neco):
               ]
               
     #sets: lista com quatro elementos, cada um deles um set dos valores únicos pelos quais se deve iterar as variáveis de controle
-
-    #criar os conjuntos de valores através dos quais se deve iterar ao calcular as médias. Geram-se listas ordenadas dos valores únicos de uf, cnae... Resume-se a base às observações do ecossistema para restringir o conjunto de cnaes àquelas do ecossistema, e retiram-se observações que não sejam de profss para captar apenas as CBOs dessa categoria.
     sets=setter(neco=neco,controls=precontrol)
 
     #identifica se a função utiliza dados de todos os trabalhadores ou somente de PROFSSs e a posição da variável de PROFSSs
